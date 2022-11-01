@@ -21,4 +21,10 @@ public interface LaptopServise {
     String deleteAll();
 
     String deleteById(Long id);
+
+    /////////////////////////
+
+    Laptop findById(Long laptopId);
+
+    Laptop editById(Long laptopId, Laptop laptop);
 }
