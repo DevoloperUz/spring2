@@ -6,6 +6,7 @@ import com.example.spring2.service.LaptopServise;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Author: Intelligent
@@ -14,15 +15,15 @@ import java.util.List;
  */
 @Service
 public class LaptopServiceImpl implements LaptopServise {
-    private final LaptopRepository laptopRepository;
+    private final LaptopRepository repository;
 
-    public LaptopServiceImpl(LaptopRepository laptopRepository) {
-        this.laptopRepository = laptopRepository;
+    public LaptopServiceImpl(LaptopRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public Laptop save(Laptop laptop) {
-        return laptopRepository.save(laptop);
+        return repository.save(laptop);
     }
 
     @Override
@@ -32,23 +33,54 @@ public class LaptopServiceImpl implements LaptopServise {
 
     @Override
     public List<Laptop> findAll() {
-        return laptopRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
     public Laptop findOne(Long id) {
-        return laptopRepository.getReferenceById(id);
+        return repository.getReferenceById(id);
     }
 
     @Override
     public String deleteAll() {
-        laptopRepository.deleteAll();
+        repository.deleteAll();
         return "All laptops successfully deleted!";
     }
 
     @Override
     public String deleteById(Long id) {
-        laptopRepository.deleteById(id);
+        repository.deleteById(id);
         return "Laptop succesfully deleted!";
+    }
+
+    @Override
+    public Laptop findById(Long laptopId) {
+        Optional<Laptop> optionalLaptop = repository.findById(laptopId);
+        if (optionalLaptop.isPresent()) {
+            Laptop laptop = optionalLaptop.get();
+            return laptop;
+        }
+        return new Laptop();
+    }
+
+    @Override
+    public Laptop editById(Long laptopId, Laptop laptop) {
+        Optional<Laptop> optionalLaptop = repository.findById(laptopId);
+        if(optionalLaptop.isPresent()) {
+            Laptop entity = optionalLaptop.get();
+
+            if(laptop.getName() != null &&
+                    !entity.getName().equals(laptop.getName())) {
+                entity.setName(laptop.getName());
+            }
+
+            if(laptop.getBrandName() != null &&
+                    !entity.getBrandName().equals(laptop.getBrandName())){
+                entity.setBrandName(laptop.getBrandName());
+            }
+
+            return repository.save(entity);
+        }
+        return new Laptop();
     }
 }
