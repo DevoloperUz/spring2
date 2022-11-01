@@ -49,4 +49,21 @@ public class LaptopController {
        return servise.deleteById(id);
     }
 
+    ///////////////
+
+    @GetMapping("/{id}/by_id")
+    public Laptop findById(@PathVariable("id") Long laptopId) {
+        return servise.findById(laptopId);
+    }
+
+    @PutMapping("/{id}/edit")
+    public Laptop editById(@PathVariable("id") Long laptopId,
+                           @RequestBody Laptop laptop) {
+        return servise.editById(laptopId, laptop);
+    }
+
+
+
+
+
 }
