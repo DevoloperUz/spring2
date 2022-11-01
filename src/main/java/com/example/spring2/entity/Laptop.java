@@ -32,7 +32,7 @@ public class Laptop {
     private String model;
 
     @Column(name = "ram", nullable = false)
-    private String ram;
+    private Integer ram;
 
     @Column(name = "storage", nullable = false)
     private Integer storage;
